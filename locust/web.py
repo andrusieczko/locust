@@ -25,6 +25,7 @@ app = Flask(__name__)
 app.debug = True
 app.root_path = os.path.dirname(os.path.abspath(__file__))
 
+passedOptions = {}
 
 @app.route('/')
 def index():
@@ -40,6 +41,8 @@ def index():
         slave_count=slave_count,
         user_count=runners.locust_runner.user_count,
         version=version
+        num_clients=passedOptions['options'].num_clients,
+        hatch_rate=passedOptions['options'].hatch_rate
     )
 
 @app.route('/swarm', methods=["POST"])
@@ -180,6 +183,7 @@ def exceptions():
     return response
 
 def start(locust, options):
+    passedOptions['options'] = options
     wsgi.WSGIServer((options.web_host, options.port), app, log=None).serve_forever()
 
 def _sort_stats(stats):

@@ -3,7 +3,6 @@
 <head> 
     <title>Locust</title> 
     <link rel="stylesheet" type="text/css" href="/static/style.css" media="screen">
-    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon"/>
 </head> 
 <body class="{{state}}">
     <div class="top">
@@ -55,9 +54,9 @@
                 <h2>Start new Locust swarm</h2>
                 <form action="/swarm" method="POST" id="swarm_form">
                     <label for="locust_count">Number of users to simulate</label>
-                    <input type="text" name="locust_count" id="locust_count" class="val" /><br>
+                    <input type="text" name="locust_count" id="locust_count" class="val" value="{{num_clients}}"/><br>
                     <label for="hatch_rate">Hatch rate <span style="color:#8a8a8a;">(users spawned/second)</span></label>
-                    <input type="text" name="hatch_rate" id="hatch_rate" class="val" /><br>
+                    <input type="text" name="hatch_rate" id="hatch_rate" class="val" value="{{hatch_rate}}"/><br>
                     <input type="image" src="/static/img/start_button.png" value="Start swarming" class="start_button">
                 </form>
                 <div style="clear:right;"></div>
@@ -107,6 +106,9 @@
                         </thead>
                         <tbody>
                         </tbody>
+                        <tfoot>
+                            <tr><td colspan="10"></td></tr>
+                        </tfoot>
                     </table>
                     <div style="margin-top:20px;">
                         <a href="/stats/requests/csv">Download request statistics CSV</a><br />
@@ -172,9 +174,9 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="/static/jquery-1.4.min.js"></script>
+    <script type="text/javascript" src="/static/jquery-1.4.min.js"></script> 
     <script type="text/javascript" src="/static/jquery.jqote2.min.js"></script>
-    <script type="text/javascript" src="/static/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.tools.min.js"></script> 
     <script type="text/x-jqote-template" id="stats-template">
         <![CDATA[
         <tr class="<%=(alternate ? "dark" : "")%> <%=(this.name == "Total" ? "total" : "")%>">

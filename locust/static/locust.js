@@ -1,3 +1,12 @@
+var numberOfStatsRows = 100;
+
+var $tableFooterTd = $('#stats tfoot td');
+var $loadMoreButton = $('<button>').text('Load more rows');
+$tableFooterTd.append($loadMoreButton);
+$loadMoreButton.bind('click', function() {
+    numberOfStatsRows += 100;
+});
+
 $(window).ready(function() {
     if($("#locust_count").length > 0) {
         $("#locust_count").focus().select();
@@ -102,6 +111,7 @@ $(".stats_label").click(function(event) {
     alternate = false;
     totalRow = report.stats.pop()
     sortedStats = (report.stats).sort(sortBy(sortAttribute, desc))
+
     sortedStats.push(totalRow)
     $('#stats tbody').jqoteapp(stats_tpl, sortedStats);
     alternate = false;
@@ -127,6 +137,9 @@ function updateStats() {
 
         totalRow = report.stats.pop()
         sortedStats = (report.stats).sort(sortBy(sortAttribute, desc))
+        
+        sortedStats = sortedStats.slice(0, numberOfStatsRows);
+        
         sortedStats.push(totalRow)
         $('#stats tbody').jqoteapp(stats_tpl, sortedStats);
         alternate = false;
