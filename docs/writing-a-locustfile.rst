@@ -78,15 +78,15 @@ If the Locust class represents a swarming locust, you could say that the TaskSet
 the brain of the locust. Each Locust class must have a *task_set* attribute set, that points to 
 a TaskSet.
 
-A TaskSet is, like it's name suggests, a collection of tasks. These tasks are normal python callables 
+A TaskSet is, like its name suggests, a collection of tasks. These tasks are normal python callables 
 and - if we were loadtesting an auction website - could do stuff like "loading the start page", 
 "searching for some product" and "making a bid". 
 
 When a load test is started, each instance of the spawned Locust classes will start executing their 
-TaskSet. What happens then is that each TaskSet will pick one of it's tasks and call it. It will then 
+TaskSet. What happens then is that each TaskSet will pick one of its tasks and call it. It will then 
 wait a number of milliseconds, chosen at random between the Locust class' *min_wait* and *max_wait* attributes 
 (unless min_wait/max_wait has been defined directly under the TaskSet, in which case it will use 
-it's own values instead). Then it will again pick a new task which will be called, then wait again, 
+its own values instead). Then it will again pick a new task which will be called, then wait again, 
 and so on.
 
 Declaring tasks
@@ -213,7 +213,7 @@ instead of refering to a python function, you point it to another TaskSet::
 
 So in above example, if the ForumPage would get selected for execution when the UserBehaviour 
 TaskSet is executing, is. that the ForumPage TaskSet would start executing. The ForumPage TaskSet 
-would then pick one of it's own task, execute it, then wait, and so on. 
+would then pick one of its own task, execute it, then wait, and so on. 
 
 There is one important thing to note about the above example, and that is the call to 
 self.interrupt() in the ForumPage's stop method. What this does is essentially that it will 
@@ -245,7 +245,7 @@ Referencing the Locust instance, or the parent TaskSet instance
 ---------------------------------------------------------------
 
 A TaskSet instance will have the attribute :py:attr:`locust <locust.core.TaskSet.locust>` point to 
-it's Locust instance, and the attribute :py:attr:`parent <locust.core.TaskSet.parent>` point to it's 
+its Locust instance, and the attribute :py:attr:`parent <locust.core.TaskSet.parent>` point to its 
 parent TaskSet (it will point to the Locust instance, in the base TaskSet).
 
 
@@ -262,7 +262,7 @@ class exists. When using this class, each instance gets a
     :members: client
     :noindex:
 
-When inheriting from the HttpLocust class, we can use it's client attribute to make HTTP requests 
+When inheriting from the HttpLocust class, we can use its client attribute to make HTTP requests 
 against the server. Here is an example of a locust file that can be used to load test a site 
 with two urls; **/** and **/about/**::
 
@@ -323,7 +323,7 @@ Safe mode
 The HTTP client is configured to run in safe_mode. What this does is that any request that fails due to 
 a connection error, timeout, or similar will not raise an exception, but rather return an empty dummy 
 Response object. The request will be reported as a failure in Locust's statistics. The returned dummy 
-Response's *content* attribute will be set to None, and it's *status_code* will be 0.
+Response's *content* attribute will be set to None, and its *status_code* will be 0.
 
 
 Manually controlling if a request should be considered successful or a failure

@@ -31,7 +31,7 @@ msgpack for serializing master/slave data
 -----------------------------------------
 
 Locust now uses `msgpack <http://msgpack.org/>`_ for serializing data that is sent between 
-a master node and it's slaves. This adresses a possible attack that can be used to execute 
+a master node and its slaves. This adresses a possible attack that can be used to execute 
 code remote, if one has access to the internal locust ports that are used for master-slave 
 communication. The reason for this exploit was due to the fact that pickle was used. 
 
@@ -78,7 +78,7 @@ Now RequestStats should be instantiated and holds the global stats, as well as a
 Removed support for avg_wait
 ----------------------------
 
-Previously one could specify avg_wait to :py:class:`TaskSet` and :py:class:`Locust` that Locust would try to strive to. However this can be sufficiently accomplished by using min_wait and max_wait for most use-cases. Therefore we've decided to remove the avg_wait as it's use-case is not clear or just too narrow to be in the Locust core.
+Previously one could specify avg_wait to :py:class:`TaskSet` and :py:class:`Locust` that Locust would try to strive to. However this can be sufficiently accomplished by using min_wait and max_wait for most use-cases. Therefore we've decided to remove the avg_wait as its use case is not clear or just too narrow to be in the Locust core.
 
 Removed support for ramping
 ----------------------------
