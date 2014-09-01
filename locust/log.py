@@ -5,6 +5,9 @@ import socket
 host = socket.gethostname()
 
 def setup_logging(loglevel, logfile):
+    if (loglevel == "NOWRAPPER"):
+        return
+
     numeric_level = getattr(logging, loglevel.upper(), None)
     if numeric_level is None:
         raise ValueError("Invalid log level: %s" % loglevel)

@@ -161,7 +161,7 @@ def parse_options():
         type='str',
         dest='loglevel',
         default='INFO',
-        help="Choose between DEBUG/INFO/WARNING/ERROR/CRITICAL. Default is INFO.",
+        help="Choose between DEBUG/INFO/WARNING/ERROR/CRITICAL/NOWRAPPER. Default is INFO.",
     )
     
     # log file
