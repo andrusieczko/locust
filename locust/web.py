@@ -40,7 +40,7 @@ def index():
         is_distributed=is_distributed,
         slave_count=slave_count,
         user_count=runners.locust_runner.user_count,
-        version=version
+        version=version,
         num_clients=passedOptions['options'].num_clients,
         hatch_rate=passedOptions['options'].hatch_rate
     )
