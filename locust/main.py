@@ -143,6 +143,16 @@ def parse_options():
         default=1,
         help="The rate per second in which clients are spawned. Only used together with --no-web"
     )
+
+    # Number of clients
+    parser.add_option(
+        '-t', '--run-time',
+        action='store',
+        type='float',
+        dest='run_time',
+        default=10,
+        help="Run time (in minutes)"
+    )
     
     # Number of requests
     parser.add_option(

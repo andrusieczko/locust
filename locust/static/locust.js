@@ -53,8 +53,29 @@ var stats_tpl = $('#stats-template');
 var errors_tpl = $('#errors-template');
 var exceptions_tpl = $('#exceptions-template');
 
+
+var isTimeElapsed = function(startTime, runTimeValue) {
+    var endTime = new Date();
+    var duration = endTime - startTime;
+    var runTimeValueInMiliSecs = runTimeValue * 60 * 1000;
+    return duration > runTimeValueInMiliSecs;
+};
+
+var checkTime = function(startTime, runTimeValue) {
+    if (isTimeElapsed(startTime, runTimeValue)) {
+        $("#box_stop a").click();
+    } else {
+        setTimeout(checkTime, 1000, startTime, runTimeValue);
+    }
+};
+
 $('#swarm_form').submit(function(event) {
     event.preventDefault();
+
+    var startTime = new Date();
+    var runTimeValue = $('#run_time').val();
+    checkTime(startTime, runTimeValue);
+
     $.post($(this).attr("action"), $(this).serialize(),
         function(response) {
             if (response.success) {
