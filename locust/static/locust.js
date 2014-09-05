@@ -53,7 +53,6 @@ var stats_tpl = $('#stats-template');
 var errors_tpl = $('#errors-template');
 var exceptions_tpl = $('#exceptions-template');
 
-
 var isTimeElapsed = function(startTime, runTimeValue) {
     var endTime = new Date();
     var duration = endTime - startTime;
@@ -61,11 +60,29 @@ var isTimeElapsed = function(startTime, runTimeValue) {
     return duration > runTimeValueInMiliSecs;
 };
 
-var checkTime = function(startTime, runTimeValue) {
+var addLeadingZero = function(value) {
+    return (value < 10 ? "0" : "") + (value < 0 ? 0 : value);
+};
+
+var formatDuration = function(miliseconds) {
+    var hours = Math.floor(miliseconds / (60 * 60 * 1000));
+    var minutes = Math.floor(miliseconds / (60 * 1000)) % 60;
+    var seconds = Math.floor(miliseconds / 1000) % 60;
+    return [hours, minutes, seconds].map(addLeadingZero).join(':');
+};
+
+var checkTime = function(startTime, runTimeValue, finishTime) {
+    var now = new Date();
+    var runTime = formatDuration(now - startTime);
+    var remainingTime = formatDuration(finishTime - now);
+    $('.run-time').text(runTime);
+    $('.remaining-time').text(remainingTime);
+    
     if (isTimeElapsed(startTime, runTimeValue)) {
         $("#box_stop a").click();
     } else {
-        setTimeout(checkTime, 1000, startTime, runTimeValue);
+        // TODO: when you start new test, you're doubling the listeners 
+        setTimeout(checkTime, 1000, startTime, runTimeValue, finishTime);
     }
 };
 
@@ -74,7 +91,11 @@ $('#swarm_form').submit(function(event) {
 
     var startTime = new Date();
     var runTimeValue = $('#run_time').val();
-    checkTime(startTime, runTimeValue);
+    var finishTime = new Date(startTime.getTime() + runTimeValue*60*1000);
+    checkTime(startTime, runTimeValue, finishTime);
+
+    $('.start-time').text(startTime.toLocaleTimeString());
+    $('.finish-time').text(finishTime.toLocaleTimeString());
 
     $.post($(this).attr("action"), $(this).serialize(),
         function(response) {

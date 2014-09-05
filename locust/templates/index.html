@@ -40,8 +40,23 @@
                 <div class="top_box box_stop box_running" id="box_reset">
                     <a href="/stats/reset">Reset Stats</a>
                 </div>
+
+                <div class="top_box box_running">
+                    <div class="label">Run time</div>
+                    <div class="value run-time"></div>
+                    <div class="label">Remaining time</div>
+                    <div class="value remaining-time"></div>
+                </div>
+
+                <div class="top_box box_running">
+                    <div class="label">Start</div>
+                    <div class="value start-time"></div>
+                    <div class="label">Finish</div>
+                    <div class="value finish-time"></div>
+                </div>
             </div>
-            <div style="clear:both;"></div>
+        </div>
+        <div style="clear:both;"></div>
         </div>
     </div>
     <div class="main">
@@ -83,6 +98,7 @@
         </div>
         
         <div class="status" id="status">
+            <h2>Host: <span class="host">{{host}}</span></h2>
             <ul class="tabs">
                 <li><a href="#">Statistics</a></li>
                 <li><a href="#">Failures</a></li>
