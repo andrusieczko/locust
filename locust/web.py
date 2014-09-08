@@ -26,6 +26,10 @@ app.debug = True
 app.root_path = os.path.dirname(os.path.abspath(__file__))
 
 passedOptions = {}
+timeOptions = {
+    'duration': 10,
+    'startTime': ""
+}
 
 @app.route('/')
 def index():
@@ -52,6 +56,8 @@ def swarm():
 
     locust_count = int(request.form["locust_count"])
     hatch_rate = float(request.form["hatch_rate"])
+    timeOptions['duration'] = request.form["duration"]
+    timeOptions['startTime'] = request.form["startTime"]
     runners.locust_runner.start_hatching(locust_count, hatch_rate)
     response = make_response(json.dumps({'success':True, 'message': 'Swarming started'}))
     response.headers["Content-type"] = "application/json"
@@ -175,6 +181,8 @@ def request_stats():
     
     report["state"] = runners.locust_runner.state
     report["user_count"] = runners.locust_runner.user_count
+    report["startTime"] = timeOptions["startTime"]
+    report["duration"] = timeOptions["duration"]
     return json.dumps(report)
 
 @app.route("/exceptions")

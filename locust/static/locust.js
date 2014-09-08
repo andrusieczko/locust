@@ -53,6 +53,10 @@ var stats_tpl = $('#stats-template');
 var errors_tpl = $('#errors-template');
 var exceptions_tpl = $('#exceptions-template');
 
+
+var testStartTime = new Date();
+var testDuration = 10;
+
 var isTimeElapsed = function(startTime, runTimeValue) {
     var endTime = new Date();
     var duration = endTime - startTime;
@@ -71,13 +75,19 @@ var formatDuration = function(miliseconds) {
     return [hours, minutes, seconds].map(addLeadingZero).join(':');
 };
 
-var checkTime = function(startTime, runTimeValue, finishTime) {
+var checkTime = function(/*startTime, runTimeValue, finishTime*/) {
+    var startTime = new Date(parseInt(testStartTime));
+    var runTimeValue = parseFloat(testDuration);
+    var finishTime = new Date(startTime.getTime() + runTimeValue*60*1000);
+
     var now = new Date();
     var runTime = formatDuration(now - startTime);
     var remainingTime = formatDuration(finishTime - now);
     $('.run-time').text(runTime);
     $('.remaining-time').text(remainingTime);
     
+    $('.start-time').text(startTime.toLocaleTimeString());
+    $('.finish-time').text(finishTime.toLocaleTimeString());
     if (isTimeElapsed(startTime, runTimeValue)) {
         $("#box_stop a").click();
     } else {
@@ -86,18 +96,14 @@ var checkTime = function(startTime, runTimeValue, finishTime) {
     }
 };
 
+checkTime();
 $('#swarm_form').submit(function(event) {
     event.preventDefault();
 
-    var startTime = new Date();
-    var runTimeValue = $('#run_time').val();
-    var finishTime = new Date(startTime.getTime() + runTimeValue*60*1000);
-    checkTime(startTime, runTimeValue, finishTime);
-
-    $('.start-time').text(startTime.toLocaleTimeString());
-    $('.finish-time').text(finishTime.toLocaleTimeString());
-
-    $.post($(this).attr("action"), $(this).serialize(),
+    testStartTime = new Date();
+    testDuration = $('#run_time').val();
+    var args = $(this).serialize() + "&startTime=" + testStartTime.getTime() + "&duration=" + testDuration;
+    $.post($(this).attr("action"), args,
         function(response) {
             if (response.success) {
                 $("body").attr("class", "hatching");
@@ -174,6 +180,9 @@ function updateStats() {
 
         $('#stats tbody').empty();
         $('#errors tbody').empty();
+
+        testStartTime = report.startTime;
+        testDuration = report.duration;
 
         alternate = false;
 
