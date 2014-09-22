@@ -159,7 +159,9 @@ def request_stats():
             "avg_content_length": s.avg_content_length,
         })
     
-    report = {"stats":stats[:100], "errors":[e.to_dict() for e in runners.locust_runner.errors.itervalues()]}
+    max_number_of_rows_sent_to_front_end = 10
+    errors = [e.to_dict() for e in runners.locust_runner.errors.itervalues()]
+    report = {"stats":stats[:max_number_of_rows_sent_to_front_end], "errors":errors[:max_number_of_rows_sent_to_front_end]}
     if stats:
         report["total_rps"] = stats[len(stats)-1]["current_rps"]
         report["fail_ratio"] = runners.locust_runner.stats.aggregated_stats("Total").fail_ratio
