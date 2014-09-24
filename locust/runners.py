@@ -37,6 +37,7 @@ class LocustRunner(object):
         self.hatching_greenlet = None
         self.exceptions = {}
         self.stats = global_stats
+        self.myLocusts=[]
         
         # register listener that resets stats when hatching is complete
         def on_hatch_complete(user_count):
@@ -110,7 +111,9 @@ class LocustRunner(object):
                 occurence_count[locust.__name__] += 1
                 def start_locust(_):
                     try:
-                        locust().run()
+                        newLocust = locust()
+                        self.myLocusts += [newLocust]
+                        newLocust.run()
                     except GreenletExit:
                         pass
                 new_locust = self.locusts.spawn(start_locust, locust)
@@ -175,6 +178,12 @@ class LocustRunner(object):
         # if we are currently hatching locusts we need to kill the hatching greenlet first
         if self.hatching_greenlet and not self.hatching_greenlet.ready():
             self.hatching_greenlet.kill(block=True)
+        
+        for myLocust in self.myLocusts:
+            if ('onStopLocust' in dir(myLocust)):
+                myLocust.onStopLocust()
+        self.myLocusts=[]
+
         self.locusts.kill(block=True)
         self.state = STATE_STOPPED
 
