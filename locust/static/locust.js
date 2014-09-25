@@ -75,7 +75,14 @@ var formatDuration = function(miliseconds) {
     return [hours, minutes, seconds].map(addLeadingZero).join(':');
 };
 
+var isStopButtonVisible = function() {
+    return $('.top_box.box_stop.box_running').is(':visible');
+};
+
 var checkTime = function(/*startTime, runTimeValue, finishTime*/) {
+    if (!isStopButtonVisible()) {
+        return;
+    }
     var startTime = new Date(parseInt(testStartTime));
     var runTimeValue = parseFloat(testDuration);
     var finishTime = new Date(startTime.getTime() + runTimeValue*60*1000);
@@ -90,6 +97,7 @@ var checkTime = function(/*startTime, runTimeValue, finishTime*/) {
     $('.finish-time').text(finishTime.toLocaleTimeString());
     if (isTimeElapsed(startTime, runTimeValue)) {
         $("#box_stop a").click();
+
     } else {
         // TODO: when you start new test, you're doubling the listeners 
         setTimeout(checkTime, 1000, startTime, runTimeValue, finishTime);
@@ -97,6 +105,7 @@ var checkTime = function(/*startTime, runTimeValue, finishTime*/) {
 };
 
 checkTime();
+
 $('#swarm_form').submit(function(event) {
     event.preventDefault();
 
@@ -113,6 +122,7 @@ $('#swarm_form').submit(function(event) {
                 $("a.new_test").fadeOut();
                 $("a.edit_test").fadeIn();
                 $(".user_count").fadeIn();
+                checkTime();
             }
         }
     );
@@ -142,8 +152,8 @@ var sortBy = function(field, reverse, primer){
        if (a<b) return reverse * -1;
        if (a>b) return reverse * 1;
        return 0;
-    }
-}
+    };
+};
 
 // Sorting by column
 var sortAttribute = "name";
@@ -157,10 +167,10 @@ $(".stats_label").click(function(event) {
     $('#stats tbody').empty();
     $('#errors tbody').empty();
     alternate = false;
-    totalRow = report.stats.pop()
-    sortedStats = (report.stats).sort(sortBy(sortAttribute, desc))
+    totalRow = report.stats.pop();
+    sortedStats = (report.stats).sort(sortBy(sortAttribute, desc));
 
-    sortedStats.push(totalRow)
+    sortedStats.push(totalRow);
     $('#stats tbody').jqoteapp(stats_tpl, sortedStats);
     alternate = false;
     $('#errors tbody').jqoteapp(errors_tpl, (report.errors).sort(sortBy(sortAttribute, desc)));
@@ -176,7 +186,7 @@ function updateStats() {
         $("#userCount").html(report.user_count);
 
         if (report.slave_count)
-            $("#slaveCount").html(report.slave_count)
+            $("#slaveCount").html(report.slave_count);
 
         $('#stats tbody').empty();
         $('#errors tbody').empty();
@@ -186,12 +196,12 @@ function updateStats() {
 
         alternate = false;
 
-        totalRow = report.stats.pop()
-        sortedStats = (report.stats).sort(sortBy(sortAttribute, desc))
+        totalRow = report.stats.pop();
+        sortedStats = (report.stats).sort(sortBy(sortAttribute, desc));
         
         sortedStats = sortedStats.slice(0, numberOfStatsRows);
         
-        sortedStats.push(totalRow)
+        sortedStats.push(totalRow);
         $('#stats tbody').jqoteapp(stats_tpl, sortedStats);
         alternate = false;
         $('#errors tbody').jqoteapp(errors_tpl, (report.errors).sort(sortBy(sortAttribute, desc)));

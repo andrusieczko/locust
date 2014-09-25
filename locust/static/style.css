@@ -1,3 +1,21 @@
+@media (max-width: 1380px) {
+    .boxes {
+        font-size: 0.8em;
+    }
+    .boxes .box_rps .value, .boxes .box_slaves .value {
+        font-size: 28px!important;
+    }
+}
+
+@media (max-width: 1230px) {
+    .boxes {
+        font-size: 0.7em;
+    }
+    .boxes .box_rps .value, .boxes .box_slaves .value {
+        font-size: 20px!important;
+    }
+}
+
 body {
     background: #111717;
     padding: 0;
